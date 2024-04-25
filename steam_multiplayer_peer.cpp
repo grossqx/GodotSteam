@@ -473,7 +473,7 @@ void SteamMultiplayerPeer::network_messages_session_failed_scb(SteamNetworkingMe
 	ERR_PRINT("ERROR NETWORK MESSAGE! I'm going to figure this out later.");
 
 	/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
-	uint64_t other_end_steamid = info.m_identityRemote.GetSteamID64()
+	uint64_t other_end_steamid = info.m_identityRemote.GetSteamID64();
 
 	/// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
 	//HSteamListenSocket m_hListenSocket;
@@ -486,13 +486,13 @@ void SteamMultiplayerPeer::network_messages_session_failed_scb(SteamNetworkingMe
 
 	/// What data center is the remote host in?  (0 if we don't know.)
 	char remote_popid[POPID_STRING_BYTE_SIZE];
-	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, remote_popid)
+	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, remote_popid);
 	ERR_PRINT(String("Remote Valve data center: ") + String::utf8(remote_popid));
 
 	/// What relay are we using to communicate with the remote host?
 	/// (0 if not applicable.)
 	char relay_popid[POPID_STRING_BYTE_SIZE];
-	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, relay_popid)
+	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, relay_popid);
 	ERR_PRINT(String("Relay Valve data center: ") + String::utf8(relay_popid));
 
 	/// Arbitrary user data set by the local application code
