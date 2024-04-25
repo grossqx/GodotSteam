@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="SteamMultiplayerPeer" inherits="MultiplayerPeer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+		Works on top of GodotSteam. Allows you to use the Steam networking service as a multiplayer peer.
+	</brief_description>
+	<description>
+        Extends MultiplayerPeer and provides a bridge between Steam Networking Sockets and Godot's high level multiplayer API.
+	</description>
+	<tutorials>
+		<link title="Achievement Icons">https://godotsteam.com/tutorials/achievement_icons/</link>
+	</tutorials>
+	<methods>
+		<method name="writeScreenshot">
+			<return type="int" />
+			<param index="0" name="rgb" type="PackedByteArray" />
+			<param index="1" name="width" type="int" />
+			<param index="2" name="height" type="int" />
+			<description>
+				Writes a screenshot to the user's Steam screenshot library. 
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="lobby_created">
+			<description>
+				Gets called on successfully creating a lobby and a game server.
+			</description>
+		</signal>
+		<signal name="lobby_createdd">
+			<param index="0" name="connect" type="int" />
+			<param index="1" name="lobby_id" type="int" />
+			<description>
+				Result of our request to create a Lobby. At this point, the lobby has been joined and is ready for use.
+			</description>
+		</signal>
+	</signals>
+	<constants>
+		<constant name="ACCOUNT_ID_INVALID" value="0">
+		</constant>
+		<constant name="ACCOUNT_TYPE_CONSOLE_USER" value="9" enum="AccountType">
+		</constant>
+	</constants>
+</class>
