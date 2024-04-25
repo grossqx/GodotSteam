@@ -458,6 +458,7 @@ void SteamMultiplayerPeer::network_messages_session_failed_scb(SteamNetworkingMe
 	// Parse out the reason for failure
 	ERR_PRINT("ERROR NETWORK MESSAGE! I'm going to figure this out later.");
 	DEBUG_DATA_SIGNAL_V("network_messages_session_failed_scb", info.m_eEndReason);
+	emit_signal("failed_network_session");
 	// emit_signal("network_messages_session_failed", reason);
 }
 
