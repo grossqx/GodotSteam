@@ -12,6 +12,7 @@
 // #include "steam_id.h"
 
 #define MAX_TIME_WITHOUT_MESSAGE 1000
+#define POPID_STRING_BYTE_SIZE 5
 
 Dictionary steamIdToDict(CSteamID input);
 
