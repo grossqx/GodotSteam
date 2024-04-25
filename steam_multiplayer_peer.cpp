@@ -97,7 +97,6 @@ void SteamMultiplayerPeer::_bind_methods() {
 
 	// debug failed session
 	ADD_SIGNAL(MethodInfo("failed_network_session"));
-	ADD_SIGNAL(MethodInfo("smp_peer_connected", PropertyInfo(Variant::INT, "dis_peer_id")));
 }
 
 int SteamMultiplayerPeer::get_available_packet_count() const {
@@ -312,8 +311,6 @@ void SteamMultiplayerPeer::set_steam_id_peer(CSteamID steamId, int peer_id) {
 	if (con->peer_id == -1) {
 		con->peer_id = peer_id;
 		peerId_to_steamId[peer_id] = con;
-		ERR_PRINT("A goddamn peer has connected. smp_peer_connected Signal emitted");
-		emit_signal("smp_peer_connected", peer_id);
 		emit_signal("peer_connected", peer_id);
 	} else if (con->peer_id == peer_id) {
 		//nothing happens, set peer that already exists
