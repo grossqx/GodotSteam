@@ -463,17 +463,17 @@ void SteamMultiplayerPeer::network_messages_session_failed_scb(SteamNetworkingMe
 	SteamNetConnectionInfo_t info = call_data->m_info;
 
 	/// Basic cause of the connection termination or problem. See ESteamNetConnectionEnd for the values used
-	int reason = info->m_eEndReason;
+	int reason = info.m_eEndReason;
 	ERR_PRINT(String("Connection failed reason: ") + String::num(reason));
 	
 	/// High level state of the connection (enum ESteamNetworkingConnectionState)
-	int connection_state = info->m_eState;
+	int connection_state = info.m_eState;
 	ERR_PRINT(String("Connection failed reason: ") + String::num(connection_state));
 
 	ERR_PRINT("ERROR NETWORK MESSAGE! I'm going to figure this out later.");
 
 	/// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
-	uint64_t other_end_steamid = m_identityRemote.GetSteamID64()
+	uint64_t other_end_steamid = info.m_identityRemote.GetSteamID64()
 
 	/// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
 	//HSteamListenSocket m_hListenSocket;
@@ -481,37 +481,37 @@ void SteamMultiplayerPeer::network_messages_session_failed_scb(SteamNetworkingMe
 	/// Remote address.  Might be all 0's if we don't know it, or if this is N/A.
 	/// (E.g. Basically everything except direct UDP connection.)
 	char ip_string[SteamNetworkingIPAddr::k_cchMaxString];
-	info->m_addrRemote.ToString(ip_string, sizeof(ip_string), true);  // With port
+	info.m_addrRemote.ToString(ip_string, sizeof(ip_string), true);  // With port
 	ERR_PRINT(String("Steam Networking IP address: ") + String::utf8(ip_string));
 
 	/// What data center is the remote host in?  (0 if we don't know.)
 	char remote_popid[POPID_STRING_BYTE_SIZE];
-	GetSteamNetworkingLocationPOPStringFromID(m_idPOPRelay, remote_popid)
+	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, remote_popid)
 	ERR_PRINT(String("Remote Valve data center: ") + String::utf8(remote_popid));
 
 	/// What relay are we using to communicate with the remote host?
 	/// (0 if not applicable.)
 	char relay_popid[POPID_STRING_BYTE_SIZE];
-	GetSteamNetworkingLocationPOPStringFromID(m_idPOPRelay, relay_popid)
+	GetSteamNetworkingLocationPOPStringFromID(info.m_idPOPRelay, relay_popid)
 	ERR_PRINT(String("Relay Valve data center: ") + String::utf8(relay_popid));
 
 	/// Arbitrary user data set by the local application code
-	ERR_PRINT(String("Arbitrary user data set by the local application code: ") + String::num(info->m_nUserData));
+	ERR_PRINT(String("Arbitrary user data set by the local application code: ") + String::num(info.m_nUserData));
 
 	/// Human-readable, but non-localized explanation for connection
 	/// termination or problem.  This is intended for debugging /
 	/// diagnostic purposes only, not to display to users.  It might
 	/// have some details specific to the issue.
 	//char m_szEndDebug[];
-	ERR_PRINT(String("Human readable: ") + String::utf8(info->m_szEndDebug));
+	ERR_PRINT(String("Human readable: ") + String::utf8(info.m_szEndDebug));
 
 	/// Debug description.  This includes the connection handle,
 	/// connection type (and peer information), and the app name.
 	/// This string is used in various internal logging messages
 	//char m_szConnectionDescription[];
-	ERR_PRINT(String("Debug description: ") + String::utf8(info->m_szConnectionDescription));
+	ERR_PRINT(String("Debug description: ") + String::utf8(info.m_szConnectionDescription));
 
-	DEBUG_DATA_SIGNAL_V("network_messages_session_failed_scb", info->m_eEndReason);
+	DEBUG_DATA_SIGNAL_V("network_messages_session_failed_scb", info.m_eEndReason);
 	emit_signal("network_messages_session_failed", reason);
 	emit_signal("failed_network_session");
 }
