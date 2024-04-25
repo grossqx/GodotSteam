@@ -41,6 +41,15 @@
 				Converts Steam user ID into peer ID of MultiplayerAPI's current multiplayer_peer.
 			</description>
 		</method>
+		<method name="set_lobby_joinable">
+			<return type="void" />
+			<param index="0" name="joinable" type="bool" />
+			<description>
+				Sets whether or not a lobby is joinable by other players. This always defaults to enabled for a new lobby. 
+				If joining is disabled, then no players can join, even if they are a friend or have been invited.
+				Lobbies with joining disabled will not be returned from a lobby search.
+			</description>
+		</method>
 	</methods>
 	<signals>
 		<signal name="lobby_created">
