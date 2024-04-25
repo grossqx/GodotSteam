@@ -94,6 +94,10 @@ void SteamMultiplayerPeer::_bind_methods() {
 
 	// debug
 	ADD_SIGNAL(MethodInfo("debug_data", PropertyInfo(Variant::DICTIONARY, "data")));
+
+	// debug failed session
+	ADD_SIGNAL(MethodInfo("failed_network_session"));
+	ADD_SIGNAL(MethodInfo("smp_peer_connected", PropertyInfo(Variant::INT, "dis_peer_id")));
 }
 
 int SteamMultiplayerPeer::get_available_packet_count() const {

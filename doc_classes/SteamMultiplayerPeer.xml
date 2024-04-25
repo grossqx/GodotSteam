@@ -26,6 +26,11 @@
 				Gets called on successfully creating a lobby and a game server.
 			</description>
 		</signal>
+		<signal name="failed_network_session">
+			<description>
+				Testing custom signal.
+			</description>
+		</signal>
 		<signal name="lobby_createdd">
 			<param index="0" name="connect" type="int" />
 			<param index="1" name="lobby_id" type="int" />
