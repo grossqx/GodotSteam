@@ -433,7 +433,7 @@ void SteamMultiplayerPeer::lobby_chat_update_scb(LobbyChatUpdate_t *call_data) {
 			// todo emit signal based on what happened to that user!
 			break;
 		default:
-			ERR_PRINT("WTF!?");
+			ERR_PRINT("WTF is this lobby chat update status?!");
 	}
 };
 
