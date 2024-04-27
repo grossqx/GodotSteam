@@ -11,6 +11,17 @@
 		<link title="Compiling from source">https://godotsteam.com/howto/multiplayer_peer/</link>
 		<link title="Changelog">https://godotsteam.com/changelog/multiplayer_peer/</link>
 	</tutorials>
+	<members>
+		<member name="as_relay" type="bool" setter="set_as_relay" getter="get_as_relay" default="false">
+			Empty.
+		</member>
+		<member name="no_delay" type="bool" setter="set_no_delay" getter="get_no_delay" default="false">
+			Empty.
+		</member>
+		<member name="no_nagle" type="bool" setter="set_no_nagle" getter="get_no_nagle" default="false">
+			Empty.
+		</member>
+	</members>
 	<methods>
 		<method name="create_lobby">
 			<return type="Error" />
