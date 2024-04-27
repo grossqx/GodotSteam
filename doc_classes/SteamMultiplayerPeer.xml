@@ -113,12 +113,60 @@
 		</method>
 	</methods>
 	<signals>
+		<signal name="debug_data">
+			<param index="0" name="data" type="Dictionary" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="favorites_list_accounts_updated">
+			<param index="0" name="result" type="int" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="favorites_list_changed">
+			<param index="0" name="favorite" type="Dictionary" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="lobby_chat_update">
+			<param index="0" name="lobby_id" type="int" />
+			<param index="1" name="changed_id" type="int" />
+			<param index="2" name="making_change_id" type="int" />
+			<param index="3" name="chat_state" type="int" />
+			<description>
+				Empty.
+			</description>
+		</signal>
 		<signal name="lobby_created">
 			<param index="0" name="result" type="int" />
 			<param index="1" name="lobby_id" type="int" />
 			<description>
-				Gets emitted after creating a lobby and a game server. Creator automatically joins the lobby. 
-				Provided that result is [Steam].Result.RESULT_OK, callback for this signal would be a good moment to assign the peer to [MultiplayerAPI] by calling multiplayer.set_multiplayer_peer().
+				Gets emitted after creating a lobby and a game server. Creator automatically joins the lobby. Provided that result is [Steam.Result.RESULT_OK], callback for this signal would be a good moment to assign the peer to [MultiplayerAPI] by calling [code]multiplayer.set_multiplayer_peer()[/code].
+			</description>
+		</signal>
+		<signal name="lobby_data_update">
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="lobby_game_created">
+			<param index="0" name="lobby_id" type="int" />
+			<param index="1" name="server_id" type="int" />
+			<param index="2" name="server_ip" type="String" />
+			<param index="3" name="port" type="int" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="lobby_invite">
+			<param index="0" name="inviter" type="int" />
+			<param index="1" name="lobby" type="int" />
+			<param index="2" name="game" type="int" />
+			<description>
+				Empty.
 			</description>
 		</signal>
 		<signal name="lobby_joined">
@@ -127,8 +175,38 @@
 			<param index="2" name="locked" type="bool" />
 			<param index="3" name="response" type="Steam.ChatRoomEnterResponse" />
 			<description>
-				Received upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this.
-				Provided that result is [Steam].ChatRoomEnterResponse.CHAT_ROOM_ENTER_RESPONSE_SUCCESS, callback for this signal would be a good moment to assign the peer to [MultiplayerAPI] by calling multiplayer.set_multiplayer_peer().
+				Received upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this. Provided that result is [Steam].ChatRoomEnterResponse.CHAT_ROOM_ENTER_RESPONSE_SUCCESS, callback for this signal would be a good moment to assign the peer to [MultiplayerAPI] by calling [code]multiplayer.set_multiplayer_peer()[/code].
+			</description>
+		</signal>
+		<signal name="lobby_kicked">
+			<param index="0" name="lobby_id" type="int" />
+			<param index="1" name="admin_id" type="int" />
+			<param index="2" name="due_to_disconnect" type="int" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="lobby_match_list">
+			<param index="0" name="lobbies" type="Array" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="lobby_message">
+			<param index="0" name="lobby_id" type="int" />
+			<param index="1" name="user" type="int" />
+			<param index="2" name="message" type="String" />
+			<param index="3" name="chat_type" type="int" />
+			<description>
+				Empty.
+			</description>
+		</signal>
+		<signal name="network_session_failed">
+			<param index="0" name="steam_id" type="int" />
+			<param index="1" name="reason" type="int" />
+			<param index="2" name="connection_state" type="bool" />
+			<description>
+				Empty.
 			</description>
 		</signal>
 	</signals>
