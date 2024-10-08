@@ -9,13 +9,10 @@ on:
         required: true
         type: string
 
-      mono_tag:
-        required: true
-        type: string
-
       steamworks_sdk_tag:
         required: true
         type: string
+
 
     secrets:
       steamworks_sdk_repo:
@@ -40,7 +37,6 @@ jobs:
       matrix:
         include:
           - name: Editor and Templates
-            build-mono: false
             cache-name: macos
 
     steps:
@@ -71,14 +67,6 @@ jobs:
         with:
           path: "godotsteammultiplayer"
 
-      # Mono prep
-      - name: Move Shared Library For Mono
-        if: ${{ matrix.build-mono }}
-        uses: ./.github/actions/prep-mono
-        with:
-          path: "osx"
-          lib: "libsteam_api.dylib"
-
       # Download and install Vulkan
       - name: Download Vulkan SDK
         uses: ./.github/actions/download-vulkan
@@ -95,57 +83,18 @@ jobs:
       - name: Setup Python and SCONS
         uses: ./.github/actions/setup-dependencies
 
-      # Setup Mono
-      - name: Setup Mono (x86_64)
-        if: ${{ matrix.build-mono }}
-        uses: ./.github/actions/setup-mono
-        with:
-          mono-release: "osx-x86_64"
-          mono-bcl: "bcl-desktop"
-          mono-build-tag: ${{ inputs.mono_tag }}
-
-      - name: Setup Mono (arm64)
-        if: ${{ matrix.build-mono }}
-        uses: ./.github/actions/setup-mono
-        with:
-          mono-release: "osx-arm64"
-          mono-build-tag: ${{ inputs.mono_tag }}
-
-      - name: Mono precompilation
-        if: ${{ matrix.build-mono }}
-        uses: ./.github/actions/build-godot
-        with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ matrix.sconsflags }} module_mono_enabled=yes mono_glue=no
-          platform: macos
-          target: editor
-
-      # Generate Mono glue
-      - name: Generate Mono glue code
-        if: ${{ matrix.build-mono }}
-        run: |
-          DRI_PRIME=0 "./bin/godot.macos.editor.x86_64.mono" --generate-mono-glue modules/mono/glue
-
-      - name: Set Mono Scons flags
-        if: ${{ matrix.build-mono }}
-        run: |
-          echo "MONO_SCONSFLAGS=module_mono_enabled=yes mono_glue=yes copy_mono_root=yes mono_bcl=$HOME/mono-bcls/desktop-bcl/net_4_x" >> $GITHUB_ENV
-
-      - name: Clear bin
-        run: |
-          rm -rf bin
-
       # Compiling editors
       - name: Editor compilation (arch=x86_64)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=x86_64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-x86_64-release' || '' }}
+          sconsflags: ${{ env.SCONSFLAGS }} ${{ matrix.sconsflags }} arch=x86_64
           platform: macos
           target: editor
 
       - name: Editor Compilation (arch=arm64)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=arm64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-arm64-release' || '' }}
+          sconsflags: ${{ env.SCONSFLAGS }} ${{ matrix.sconsflags }} arch=arm64
           platform: macos
           target: editor
 
@@ -169,28 +118,28 @@ jobs:
       - name: Debug Template Compilation (arch=x86_64, target=template_debug)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=x86_64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-x86_64-release' || '' }}
+          sconsflags: arch=x86_64
           platform: macos
           target: template_debug
 
       - name: Debug Template Compilation (arch=arm64, target=template_debug)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=arm64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-x86_64-release' || '' }} debug_symbols=no
+          sconsflags: arch=arm64 debug_symbols=no
           platform: macos
           target: template_debug
 
       - name: Release Template Compilation (arch=x86_64, target=template_release)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=x86_64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-arm64-release' || '' }}
+          sconsflags: arch=x86_64
           platform: macos
           target: template_release
 
       - name: Release template Compilation (arch=arm64, target=template_release)
         uses: ./.github/actions/build-godot
         with:
-          sconsflags: ${{ env.SCONSFLAGS }} ${{ env.MONO_SCONSFLAGS }} ${{ matrix.sconsflags }} arch=arm64 ${{ matrix.build-mono && 'mono_prefix=$HOME/mono-installs/desktop-osx-arm64-release' || '' }} debug_symbols=no
+          sconsflags: arch=arm64 debug_symbols=no
           platform: macos
           target: template_release
 

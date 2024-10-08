@@ -7,25 +7,17 @@ on:
         description: 'Steamworks SDK Github tag:'
         required: true
         type: string
-        default: 'sdk-1.59'
-
+        default: 'sdk-1.60'
       godot_tag:
         description: 'Godot Github tag:'
         required: true
         type: string
-        default: '4.2.2-stable'
-
+        default: '4.3-stable'
       godotsteam_version:
         description: 'GodotSteam MP version:'
         required: true
         type: string
-        default: '4.7-mp'
-
-      mono_tag:
-        description: 'Mono tag:'
-        required: true
-        type: string
-        default: 'release-5299efd'
+        default: '4.10-mp'
 
 
 jobs:
@@ -42,7 +34,6 @@ jobs:
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      mono_tag: ${{ inputs.mono_tag }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
@@ -63,7 +54,6 @@ jobs:
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      mono_tag: ${{ inputs.mono_tag }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
@@ -93,7 +83,6 @@ jobs:
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      mono_tag: ${{ inputs.mono_tag }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
@@ -104,7 +93,7 @@ jobs:
     uses: ./.github/workflows/create-bundle.yml
     with:
       artifact_type: macos
-      platform: MacOS
+      platform: 'MacOS'
       zip_prefix: macos
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
 
@@ -112,5 +101,4 @@ jobs:
     needs: [env-setup, build-linux, build-windows, build-macos]
     uses: ./.github/workflows/create-bundle-templates.yml
     with:
-      is_mono: false
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
