@@ -12,7 +12,7 @@ inputs:
   path:
     description: The path to upload
     required: true
-    default: "./bin/"
+    default: "bin/"
 
 
 runs:

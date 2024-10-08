@@ -8,10 +8,13 @@ inputs:
   target:
     description: Which packaging are we prepping
     default: 'editor'
+
+
 runs:
   using: "composite"
   steps:
     - name: Create Universal Editor
+
       if: ${{ inputs.target == 'editor' }}
       shell: bash
       run: |
@@ -54,4 +57,5 @@ runs:
         cd bin/
         zip -q -9 -r macos.zip macos_template.app
         cd ../
+
         ls -la bin/
